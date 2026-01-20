@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בדיקת פרסומות YouTube</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #FF8C00;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        h3 {
+            color: #FFC107;
+            font-size: 1rem;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        .video-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .video-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .video-info code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+        .explanation {
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .explanation h3 {
+            margin-top: 0;
+        }
+        ul {
+            padding-right: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            color: #FF8C00;
+            font-weight: bold;
+        }
+        .api-player {
+            background: rgba(0, 100, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 בדיקת פרסומות YouTube בהטמעות</h1>
+
+        <div class="explanation">
+            <h3>📋 מה אנחנו בודקים?</h3>
+            <ul>
+                <li><span class="highlight">סרטונים עם פרסומות ידועות</span> - סרטונים מערוצים גדולים שבטוח יש להם מונטיזציה</li>
+                <li><span class="highlight">שיטות הטמעה שונות</span> - iframe ישיר vs. YouTube IFrame API</li>
+                <li><span class="highlight">פרמטרים שונים</span> - עם ובלי modestbranding, rel, וכו'</li>
+            </ul>
+            <p><strong>הערה:</strong> כדי לראות פרסומות, הסתכל על הסרטונים מההתחלה ולא תדלג. פרסומות Pre-roll יופיעו בתחילת הסרטון.</p>
+        </div>
+
+        <!-- Test 1: Standard iframe with known monetized video -->
+        <div class="test-section">
+            <h2>🎬 בדיקה 1: Iframe רגיל - סרטון ממונטז ידוע (MrBeast)</h2>
+            <div class="video-grid">
+                <div class="video-container">
+                    <h3>ללא פרמטרים נוספים</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>https://www.youtube.com/embed/TQHEJj68Jew</code>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <h3>עם enablejsapi=1 (כמו שלכם)</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew?enablejsapi=1"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>https://www.youtube.com/embed/TQHEJj68Jew?enablejsapi=1</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 2: With modestbranding and rel -->
+        <div class="test-section">
+            <h2>🎬 בדיקה 2: עם modestbranding ו-rel=0</h2>
+            <div class="video-grid">
+                <div class="video-container">
+                    <h3>modestbranding=1 & rel=0</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew?modestbranding=1&rel=0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>...?modestbranding=1&rel=0</code>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <h3>הכל ביחד (כמו הקוד שלכם)</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew?enablejsapi=1&playsinline=1&modestbranding=1&rel=0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>...?enablejsapi=1&playsinline=1&modestbranding=1&rel=0</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 3: With start and end times -->
+        <div class="test-section">
+            <h2>🎬 בדיקה 3: עם start ו-end times (כמו שלכם)</h2>
+            <div class="video-grid">
+                <div class="video-container">
+                    <h3>start=30 & end=90</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew?start=30&end=90"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>...?start=30&end=90</code>
+                        <br><br>
+                        <strong>⚠️ שים לב:</strong> שימוש ב-start time עלול לדלג על פרסומת pre-roll!
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <h3>רק start=0</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/TQHEJj68Jew?start=0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <code>...?start=0</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 4: YouTube IFrame API -->
+        <div class="test-section">
+            <h2>🎬 בדיקה 4: YouTube IFrame API (כמו video.vue)</h2>
+            <div class="video-grid">
+                <div class="video-container api-player">
+                    <h3>IFrame API - ללא autoplay</h3>
+                    <div class="video-wrapper">
+                        <div id="api-player-1"></div>
+                    </div>
+                    <div class="video-info">
+                        <code>new YT.Player with autoplay: 0</code>
+                    </div>
+                </div>
+
+                <div class="video-container api-player">
+                    <h3>IFrame API - עם cueVideoById (כמו שלכם)</h3>
+                    <div class="video-wrapper">
+                        <div id="api-player-2"></div>
+                    </div>
+                    <div class="video-info">
+                        <code>cueVideoById({ videoId, startSeconds: 30 })</code>
+                        <br><br>
+                        <strong>⚠️ שים לב:</strong> cueVideoById עם startSeconds עלול לדלג על פרסומת!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test 5: Different monetized videos -->
+        <div class="test-section">
+            <h2>🎬 בדיקה 5: סרטונים נוספים עם מונטיזציה ידועה</h2>
+            <div class="video-grid">
+                <div class="video-container">
+                    <h3>T-Series (הערוץ הגדול בעולם)</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/vTIIMJ9tUc8"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <h3>TED (תוכן חינוכי ממונטז)</h3>
+                    <div class="video-wrapper">
+                        <iframe
+                            src="https://www.youtube.com/embed/arj7oStGLkU"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>🔍 מסקנות אפשריות:</h3>
+            <ul>
+                <li>אם <span class="highlight">אף סרטון לא מציג פרסומות</span> - ייתכן שזה קשור לאזור הגיאוגרפי שלך או ל-Adblocker</li>
+                <li>אם <span class="highlight">רק סרטונים עם start time לא מציגים פרסומות</span> - הבעיה היא השימוש ב-start/cueVideoById</li>
+                <li>אם <span class="highlight">רק נגן ה-API לא מציג פרסומות</span> - הבעיה היא בשימוש ב-API</li>
+                <li>אם <span class="highlight">הכל מציג פרסומות</span> - הבעיה היא בסרטונים הספציפיים שאתם משתמשים בהם (לא ממונטזים)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- YouTube IFrame API -->
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player1, player2;
+
+        function onYouTubeIframeAPIReady() {
+            // Player 1 - Standard initialization
+            player1 = new YT.Player('api-player-1', {
+                height: '100%',
+                width: '100%',
+                videoId: 'TQHEJj68Jew',
+                playerVars: {
+                    autoplay: 0
+                }
+            });
+
+            // Player 2 - Using cueVideoById like your code
+            player2 = new YT.Player('api-player-2', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    autoplay: 0
+                },
+                events: {
+                    'onReady': function(event) {
+                        event.target.cueVideoById({
+                            videoId: 'TQHEJj68Jew',
+                            startSeconds: 30
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
